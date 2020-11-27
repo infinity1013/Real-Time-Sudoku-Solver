@@ -116,4 +116,6 @@ def logout():
 app.secret_key="1234567dailywebcoding"
 app.config['SECRET_KEY']="1234567dailywebcoding"
 SECRET_KEY="1234567dailywebcoding"
-app.run(debug=True)
+
+if __name__=="__main__":
+	app.run()
