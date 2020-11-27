@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+
+    <title>Sudoku Solver</title>
+    <link rel="icon" type="image/x-icon" href="{{url_for('static',filename='img/favicon.ico')}}" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <!--css file -->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='sudoku_solver.css')}}">
+  </head>
+
+  <body>
+    <div class="butt">
+      <a href="dashboard" class="btn btn-lg btn-secondary">Dashboard</a>
+      <a href="logout" class="btn btn-lg btn-secondary" style="margin-left:8px;">logout</a>
+    </div>
+
+    <div class="text-center">
+      <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+        <main role="main" class="inner cover">
+          <h1 class="cover-heading" style="margin-top:27px;">SUDOKU SOLVER</h1>
+          <div class="container">
+            <table id="grid" class="center">
+              
+            <tr>
+              {% if ques[0][0]==0 %}
+               <td><input id="cell-0" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                <td><input id="cell-0" value={{ques[0][0]}} disabled></td>
+              {% endif %} 
+              {% if ques[0][1]==0 %}
+                <td><input id="cell-1" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-1" value={{ques[0][1]}} disabled></td>
+              {% endif %} 
+              {% if ques[0][2]==0 %}
+                <td><input id="cell-2" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-2" value={{ques[0][2]}} disabled></td>
+              {% endif %} 
+              {% if ques[0][3]==0 %}
+                <td><input id="cell-3" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-3" value={{ques[0][3]}} disabled></td>
+              {% endif %} 
+              {% if ques[0][4]==0 %}
+                <td><input id="cell-4" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-4" value={{ques[0][4]}} disabled></td>
+              {% endif %} 
+              {% if ques[0][5]==0 %}
+                <td><input id="cell-5" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" type="number"></td>
+              {% else %}
+                  <td><input id="cell-5" value={{ques[0][5]}} disabled></td>
+              {% endif %} 
+              {% if ques[0][6]==0 %}
+                <td><input id="cell-6" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-6" value={{ques[0][6]}} disabled></td>
+              {% endif %} 
+              {% if ques[0][7]==0 %}
+                <td><input id="cell-7" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-7" value={{ques[0][7]}} disabled></td>
+              {% endif %} 
+              {% if ques[0][8]==0 %}
+                <td><input id="cell-8"  size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-8" value={{ques[0][8]}} disabled></td>
+              {% endif %} 
+            </tr>
+
+            <tr>
+              {% if ques[1][0]==0 %}
+                <td><input id="cell-9" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-9" value={{ques[1][0]}} disabled></td>
+              {% endif %} 
+              {% if ques[1][1]==0 %}
+                <td><input id="cell-10" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-10" value={{ques[1][1]}} disabled></td>
+              {% endif %} 
+              {% if ques[1][2]==0 %}
+                <td><input id="cell-11" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-11" value={{ques[1][2]}} disabled></td>
+              {% endif %} 
+              {% if ques[1][3]==0 %}
+                <td><input id="cell-12" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-12" value={{ques[1][3]}} disabled></td>
+              {% endif %} 
+              {% if ques[1][4]==0 %}
+                <td><input id="cell-13" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-13" value={{ques[1][4]}} disabled></td>
+              {% endif %} 
+              {% if ques[1][5]==0 %}
+                <td><input id="cell-14" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-14" value={{ques[1][5]}} disabled></td>
+              {% endif %} 
+              {% if ques[1][6]==0 %}
+                <td><input id="cell-15" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-15" value={{ques[1][6]}} disabled></td>
+              {% endif %} 
+              {% if ques[1][7]==0 %}
+                <td><input id="cell-16" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-16" value={{ques[1][7]}} disabled></td>
+              {% endif %} 
+              {% if ques[1][8]==0 %}
+                <td><input id="cell-17" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-17" value={{ques[1][8]}} disabled></td>
+              {% endif %} 
+            </tr>
+
+            <tr>          
+              {% if ques[2][0]==0 %}
+                <td><input id="cell-18" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-18" value={{ques[2][0]}} disabled></td>
+              {% endif %} 
+              {% if ques[2][1]==0 %}
+                <td><input id="cell-19" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-19" value={{ques[2][1]}} disabled></td>
+              {% endif %} 
+              {% if ques[2][2]==0 %}
+                <td><input id="cell-20" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-20" value={{ques[2][2]}} disabled></td>
+              {% endif %} 
+              {% if ques[2][3]==0 %}
+                <td><input id="cell-21" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-21" value={{ques[2][3]}} disabled></td>
+              {% endif %} 
+              {% if ques[2][4]==0 %}
+                <td><input id="cell-22" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-22"  value={{ques[2][4]}} disabled></td>
+              {% endif %} 
+              {% if ques[2][5]==0 %}
+                <td><input id="cell-23" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-23" value={{ques[2][5]}} disabled></td>
+              {% endif %} 
+              {% if ques[2][6]==0 %}
+                <td><input id="cell-24" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-24"  type="number" value={{ques[2][6]}} disabled></td>
+              {% endif %} 
+              {% if ques[2][7]==0 %}
+                <td><input id="cell-25" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-25"  type="number" value={{ques[2][7]}} disabled></td>
+              {% endif %} 
+              {% if ques[2][8]==0 %}
+                <td><input id="cell-26" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-26"  type="number" value={{ques[2][8]}} disabled></td>
+              {% endif %} 
+            </tr>
+
+            <tr>          
+              {% if ques[3][0]==0 %}
+                <td><input id="cell-27" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-27"  type="number" value={{ques[3][0]}} disabled></td>
+              {% endif %} 
+              {% if ques[3][1]==0 %}
+                <td><input id="cell-28" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-28"  type="number" value={{ques[3][1]}} disabled></td>
+              {% endif %} 
+              {% if ques[3][2]==0 %}
+                <td><input id="cell-29" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-29"  type="number" value={{ques[3][2]}} disabled></td>
+              {% endif %} 
+              {% if ques[3][3]==0 %}
+                <td><input id="cell-30" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-30"  type="number" value={{ques[3][3]}} disabled></td>
+              {% endif %} 
+              {% if ques[3][4]==0 %}
+                <td><input id="cell-31" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-31"  type="number" value={{ques[3][4]}} disabled></td>
+              {% endif %} 
+              {% if ques[3][5]==0 %}
+                <td><input id="cell-32" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-32"  type="number" value={{ques[3][5]}} disabled></td>
+              {% endif %} 
+              {% if ques[3][6]==0 %}
+                <td><input id="cell-33" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-33"  type="number" value={{ques[3][6]}} disabled></td>
+              {% endif %} 
+              {% if ques[3][7]==0 %}
+                <td><input id="cell-34" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-34"  type="number" value={{ques[3][7]}} disabled></td>
+              {% endif %} 
+              {% if ques[3][8]==0 %}
+                <td><input id="cell-35" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-35"  type="number" value={{ques[3][8]}} disabled></td>
+              {% endif %} 
+            </tr>
+
+            <tr>          
+              {% if ques[4][0]==0 %}
+                <td><input id="cell-36" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-36"  type="number" value={{ques[4][0]}} disabled></td>
+              {% endif %} 
+              {% if ques[4][1]==0 %}
+                <td><input id="cell-37" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text" ></td>
+              {% else %}
+                  <td><input id="cell-37"  type="number" value={{ques[4][1]}} disabled></td>
+              {% endif %} 
+              {% if ques[4][2]==0 %}
+                <td><input id="cell-38" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-38"  type="number" value={{ques[4][2]}} disabled></td>
+              {% endif %} 
+              {% if ques[4][3]==0 %}
+                <td><input id="cell-39" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-39"  type="number" value={{ques[4][3]}} disabled></td>
+              {% endif %} 
+              {% if ques[4][4]==0 %}
+                <td><input id="cell-40" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-40"  type="number" value={{ques[4][4]}} disabled></td>
+              {% endif %} 
+              {% if ques[4][5]==0 %}
+                <td><input id="cell-41" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-41"  type="number" value={{ques[4][5]}} disabled></td>
+              {% endif %} 
+              {% if ques[4][6]==0 %}
+                <td><input id="cell-42" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-42"  type="number" value={{ques[4][6]}} disabled></td>
+              {% endif %} 
+              {% if ques[4][7]==0 %}
+                <td><input id="cell-43" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-43"  type="number" value={{ques[4][7]}} disabled></td>
+              {% endif %} 
+              {% if ques[4][8]==0 %}
+                <td><input id="cell-44" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-44"  type="number" value={{ques[4][8]}} disabled></td>
+              {% endif %} 
+            </tr>
+
+            <tr>          
+              {% if ques[5][0]==0 %}
+                <td><input id="cell-45" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-45"  type="number" value={{ques[5][0]}} disabled></td>
+              {% endif %} 
+              {% if ques[5][1]==0 %}
+                <td><input id="cell-46" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-46"  type="number" value={{ques[5][1]}} disabled></td>
+              {% endif %} 
+              {% if ques[5][2]==0 %}
+                <td><input id="cell-47" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-47"  type="number" value={{ques[5][2]}} disabled></td>
+              {% endif %} 
+              {% if ques[5][3]==0 %}
+                <td><input id="cell-48" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-48"  type="number" value={{ques[5][3]}} disabled></td>
+              {% endif %} 
+              {% if ques[5][4]==0 %}
+                <td><input id="cell-49" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-49"  type="number" value={{ques[5][4]}} disabled></td>
+              {% endif %} 
+              {% if ques[5][5]==0 %}
+                <td><input id="cell-50" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-50"  type="number" value={{ques[5][5]}} disabled></td>
+              {% endif %} 
+              {% if ques[5][6]==0 %}
+                <td><input id="cell-51" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-51"  type="number" value={{ques[5][6]}} disabled></td>
+              {% endif %} 
+              {% if ques[5][7]==0 %}
+                <td><input id="cell-52" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-52"  type="number" value={{ques[5][7]}} disabled></td>
+              {% endif %} 
+              {% if ques[5][8]==0 %}
+                <td><input id="cell-53" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-53"  type="number" value={{ques[5][8]}} disabled></td>
+              {% endif %} 
+            </tr>
+
+            <tr>          
+              {% if ques[6][0]==0 %}
+                <td><input id="cell-54" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-54"  type="number" value={{ques[6][0]}} disabled></td>
+              {% endif %} 
+              {% if ques[6][1]==0 %}
+                <td><input id="cell-55" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-55"  type="number" value={{ques[6][1]}} disabled></td>
+              {% endif %} 
+              {% if ques[6][2]==0 %}
+                <td><input id="cell-56" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-56"  type="number" value={{ques[6][2]}} disabled></td>
+              {% endif %} 
+              {% if ques[6][3]==0 %}
+                <td><input id="cell-57" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-57"  type="number" value={{ques[6][3]}} disabled></td>
+              {% endif %} 
+              {% if ques[6][4]==0 %}
+                <td><input id="cell-58" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-58"  type="number" value={{ques[6][4]}} disabled></td>
+              {% endif %} 
+              {% if ques[6][5]==0 %}
+                <td><input id="cell-59" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-59"  type="number" value={{ques[6][5]}} disabled></td>
+              {% endif %} 
+              {% if ques[6][6]==0 %}
+                <td><input id="cell-60" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-60"  type="number" value={{ques[6][6]}} disabled></td>
+              {% endif %} 
+              {% if ques[6][7]==0 %}
+                <td><input id="cell-61" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-61"  type="number" value={{ques[6][7]}} disabled></td>
+              {% endif %} 
+              {% if ques[6][8]==0 %}
+                <td><input id="cell-62" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-62"  type="number" value={{ques[6][8]}} disabled></td>
+              {% endif %} 
+            </tr>
+
+            <tr>          
+              {% if ques[7][0]==0 %}
+                <td><input id="cell-63" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-63"  type="number" value={{ques[7][0]}} disabled></td>
+              {% endif %} 
+              {% if ques[7][1]==0 %}
+                <td><input id="cell-64" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-64"  type="number" value={{ques[7][1]}} disabled></td>
+              {% endif %} 
+              {% if ques[7][2]==0 %}
+                <td><input id="cell-65" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-65"  type="number" value={{ques[7][2]}} disabled></td>
+              {% endif %} 
+              {% if ques[7][3]==0 %}
+                <td><input id="cell-66" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-66"  type="number" value={{ques[7][3]}} disabled></td>
+              {% endif %} 
+              {% if ques[7][4]==0 %}
+                <td><input id="cell-67" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-67"  type="number" value={{ques[7][4]}} disabled></td>
+              {% endif %} 
+              {% if ques[7][5]==0 %}
+                <td><input id="cell-68" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-68"  type="number" value={{ques[7][5]}} disabled></td>
+              {% endif %} 
+              {% if ques[7][6]==0 %}
+                <td><input id="cell-69" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-69"  type="number" value={{ques[7][6]}} disabled></td>
+              {% endif %} 
+              {% if ques[7][7]==0 %}
+                <td><input id="cell-70" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-70"  type="number" value={{ques[7][7]}} disabled></td>
+              {% endif %} 
+              {% if ques[7][8]==0 %}
+                <td><input id="cell-71" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-71"  type="number" value={{ques[7][8]}} disabled></td>
+              {% endif %} 
+            </tr>
+
+            <tr>    
+              {% if ques[8][0]==0 %}
+                <td><input id="cell-72" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-72"  type="number" value={{ques[8][0]}} disabled></td>
+              {% endif %} 
+              {% if ques[8][1]==0 %}
+                <td><input id="cell-73" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-73"  type="number" value={{ques[8][1]}} disabled></td>
+              {% endif %} 
+              {% if ques[8][2]==0 %}
+                <td><input id="cell-74" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-74"  type="number" value={{ques[8][2]}} disabled></td>
+              {% endif %} 
+              {% if ques[8][3]==0 %}
+                <td><input id="cell-75" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-75"  type="number" value={{ques[8][3]}} disabled></td>
+              {% endif %} 
+              {% if ques[8][4]==0 %}
+                <td><input id="cell-76" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-76"  type="number" value={{ques[8][4]}} disabled></td>
+              {% endif %} 
+              {% if ques[8][5]==0 %}
+                <td><input id="cell-77" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-77"  type="number" value={{ques[8][5]}} disabled></td>
+              {% endif %} 
+              {% if ques[8][6]==0 %}
+                <td><input id="cell-78" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-78"  type="number" value={{ques[8][6]}} disabled></td>
+              {% endif %} 
+              {% if ques[8][7]==0 %}
+                <td><input id="cell-79" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-79"  type="number" value={{ques[8][7]}} disabled></td>
+              {% endif %} 
+              {% if ques[8][8]==0 %}
+                <td><input id="cell-80" size="1" maxlength="1" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" type="text"></td>
+              {% else %}
+                  <td><input id="cell-80"  type="number" value={{ques[8][8]}} disabled></td>
+              {% endif %} 
+            </tr>
+          </table>
+        </div>
+
+        <form method="POST" action="/backtracking">
+          <p class="lead" style="margin-top:12px;">
+            <button type="button" id="visualize" class="btn btn-lg btn-warning"> Visualize </button>
+          </p>
+        </form>
+      </main>
+    </div>
+  </div>
+
+    <script type="text/javascript">
+      var qmatrix=new Array("{{ques[0][0]}}","{{ques[0][1]}}")
+      {% for i in range(2,9) %}
+        qmatrix.push("{{ques[0][i]}}");
+      {% endfor %}
+
+      {% for i in range(1,9) %}
+        {% for j in range(0,9) %}
+        qmatrix.push("{{ques[i][j]}}");
+      {% endfor %}
+      {% endfor %}
+
+      var smatrix=new Array("{{soln[0][0]}}","{{soln[0][1]}}")
+      {% for i in range(2,9) %}
+        smatrix.push("{{soln[0][i]}}");
+      {% endfor %}
+
+      {% for i in range(1,9) %}
+        {% for j in range(0,9) %}
+        smatrix.push("{{soln[i][j]}}");
+      {% endfor %}
+      {% endfor %}
+    </script>
+    <script type="text/javascript" src="{{url_for('static', filename='visualise.js')}}"></script>
+  
+
+  </body>
+</html>
