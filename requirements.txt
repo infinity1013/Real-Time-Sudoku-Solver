@@ -9,6 +9,7 @@ numpy==1.18.5
 opencv-python-headless==4.4.0.40
 pandas==1.1.4
 passlib==1.7.4
+PyMySQL==0.10.1
 scipy==1.5.4
 tensorflow==2.3.1
 Werkzeug==1.0.1
