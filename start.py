@@ -1,3 +1,4 @@
+import os
 from flask import Flask,render_template,request,flash,session,logging,url_for,redirect
 from sqlalchemy import create_engine
 from flask_sqlalchemy import SQLAlchemy
@@ -7,10 +8,9 @@ from sqlalchemy.orm import scoped_session,sessionmaker
 from passlib.hash import sha256_crypt
 
 app=Flask(__name__)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost/db_name
-engine = create_engine('mysql+pymysql://root:Mysql@555@localhost/world')
-db=scoped_session(sessionmaker(bind=engine))
 
+engine = create_engine(os.environ.get('DATABASE_URL'))
+db=scoped_session(sessionmaker(bind=engine))
 
 @app.route('/',methods=["GET","POST"])
 def login():
@@ -20,9 +20,11 @@ def login():
 		emaildata=db.execute("SELECT email FROM users WHERE email=:email",{"email":email}).fetchone()
 		passworddata=db.execute("SELECT password FROM users WHERE email=:email",{"email":email}).fetchone()
 
+                
+                
 		if emaildata is None:
-			flash("No registerations with this email","error")
-			return render_template("login.html",category="error")
+			flash("No registerations with this email","danger")
+			return render_template("login.html",category="danger")
 		else:
 			#for passwor in passworddata:
 			if sha256_crypt.verify(password, passworddata[0]):
@@ -113,9 +115,9 @@ def logout():
 		return redirect(url_for('login'),category="danger")
 
 
-app.secret_key="1234567dailywebcoding"
-app.config['SECRET_KEY']="1234567dailywebcoding"
-SECRET_KEY="1234567dailywebcoding"
+app.secret_key=os.environ.get('SECRET')
+app.config['SECRET_KEY']=os.environ.get('SECRET')
+SECRET_KEY=os.environ.get('SECRET')
 
 if __name__=="__main__":
 	app.run()
