@@ -80,7 +80,7 @@ def sudoku_board():
 		question_grid,solution_grid=scan()
 		if len(solution_grid)==0:
 			flash("Unable to scan the image","danger")
-			return redirect(url_for("dashboard"),category="danger")
+			return redirect(url_for('dashboard'),category="danger")
 		return render_template('sudoku_solver.html',soln=solution_grid,ques=question_grid)
 	else:
 		flash("Please!!! Login First","danger")
