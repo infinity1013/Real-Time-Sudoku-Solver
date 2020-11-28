@@ -54,10 +54,7 @@ def scan():
             fl=functions.RealTimeSudokuSolver.recognize_and_solve_sudoku(frame, model, old_sudoku)
             showImage(frame, "Real Time Sudoku Solver", 1066, 600) # Print the 'solved' image
             if(fl==1):
-                print("Succesfully Scanned sudoku for solving")
-                cap.release()
-                #out.release()
-                cv2.destroyAllWindows()
+                break
             if cv2.waitKey(1) & 0xFF == ord('q'):   # Hit q if you want to stop the camera
                 quit=1
                 break
@@ -65,17 +62,12 @@ def scan():
             break
       
     cap.release()
-    #out.release()
-    cv2.destroyAllWindows()
 
     question_grid=[]
     solution_grid=[]
 
     if(quit==1):
         return (question_grid,solution_grid)
-    
-    print(functions.RealTimeSudokuSolver.grid)
-    print(functions.RealTimeSudokuSolver.user_grid)
 
     solution_grid=copy.deepcopy(functions.RealTimeSudokuSolver.grid)
     question_grid=copy.deepcopy(functions.RealTimeSudokuSolver.user_grid)
