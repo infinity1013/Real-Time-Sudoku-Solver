@@ -24,28 +24,32 @@ mail=Mail(app)
 
 @app.route('/',methods=["GET","POST"])
 def login():
-	if request.method=="POST":
-		email=request.form.get("email")
-		password=request.form.get("Password")
-		emaildata=db.execute("SELECT email FROM users WHERE email=:email",{"email":email}).fetchone()
-		passworddata=db.execute("SELECT password FROM users WHERE email=:email",{"email":email}).fetchone()
+	if "user" in session:
+		flash("Already logged in","danger")
+		return render_template("dashboard.html",category="danger")
+	else:
+		if request.method=="POST":
+			email=request.form.get("email")
+			password=request.form.get("Password")
+			emaildata=db.execute("SELECT email FROM users WHERE email=:email",{"email":email}).fetchone()
+			passworddata=db.execute("SELECT password FROM users WHERE email=:email",{"email":email}).fetchone()
 
-                
-                
-		if emaildata is None:
-			flash("No registerations with this email","danger")
-			return render_template("login.html",category="danger")
-		else:
-			#for passwor in passworddata:
-			if sha256_crypt.verify(password, passworddata[0]):
-				session["user"]=True
-				flash("Successfully logged in","success")
-				return render_template("dashboard.html",category="success")
+
+
+			if emaildata is None:
+				flash("No registerations with this email","danger")
+				return render_template("login.html",category="danger")
 			else:
-				flash("incorrect password","danger")
-				return render_template("login.html",category="danger")   
-	else:          							
-		return render_template('login.html')
+				#for passwor in passworddata:
+				if sha256_crypt.verify(password, passworddata[0]):
+					session["user"]=True
+					flash("Successfully logged in","success")
+					return render_template("dashboard.html",category="success")
+				else:
+					flash("incorrect password","danger")
+					return render_template("login.html",category="danger")   
+		else:          							
+			return render_template('login.html')
 
 
 @app.route('/register',methods=["GET","POST"])
