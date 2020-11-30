@@ -26,7 +26,7 @@ mail=Mail(app)
 def login():
 	if "user" in session:
 		flash("Already logged in","danger")
-		return render_template("dashboard.html",category="danger")
+		return render_template("login.html",category="danger")
 	else:
 		if request.method=="POST":
 			email=request.form.get("email")
@@ -42,6 +42,9 @@ def login():
 			else:
 				#for passwor in passworddata:
 				if sha256_crypt.verify(password, passworddata[0]):
+					if "user" in session:
+						flash("Already logged in","danger")
+						return render_template("login.html",category="danger")
 					session["user"]=True
 					flash("Successfully logged in","success")
 					return render_template("dashboard.html",category="success")
