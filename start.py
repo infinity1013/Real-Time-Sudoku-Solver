@@ -1,5 +1,6 @@
 import os
-from flask import Flask,render_template,request,flash,session,logging,url_for,redirect
+from flask import Flask,render_template,request,flash,session,logging,url_for,redirect,jsonify
+from flask_mail import Mail,Message 
 from sqlalchemy import create_engine
 from flask_sqlalchemy import SQLAlchemy
 from functions.main import scan
@@ -8,9 +9,18 @@ from sqlalchemy.orm import scoped_session,sessionmaker
 from passlib.hash import sha256_crypt
 
 app=Flask(__name__)
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT']=587
+app.config['MAIL_USE_TLS']=True
+app.config['MAIL_USE_SSL']=False
+app.config['MAIL_USERNAME']='aadarshgupta875@gmail.com'
+app.config['MAIL_PASSWORD']=os.environ.get('PASSWORD')
+app.config['MAIL_DEFAULT_SENDER']='aadarshgupta875@gmail.com'
 
 engine = create_engine(os.environ.get('DATABASE_URL'))
 db=scoped_session(sessionmaker(bind=engine))
+
+mail=Mail(app)
 
 @app.route('/',methods=["GET","POST"])
 def login():
@@ -72,7 +82,7 @@ def dashboard():
 		return render_template('dashboard.html')
 	else:
 		flash("Please!!! Login First","danger")
-		return redirect(url_for('login'),category="danger")
+		return render_template('login.html',category="danger")
 
 @app.route('/sudoku_board',methods=["GET","POST"])
 def sudoku_board():
@@ -84,7 +94,7 @@ def sudoku_board():
 		return render_template('sudoku_solver.html',soln=solution_grid,ques=question_grid)
 	else:
 		flash("Please!!! Login First","danger")
-		return redirect(url_for('login'),category="danger")
+		return render_template('login.html',category="danger")
 
 @app.route('/random_board',methods=["GET","POST"])
 def random_board():
@@ -93,7 +103,7 @@ def random_board():
 		return render_template('sudoku_solver.html',soln=solution_grid,ques=question_grid)
 	else:
 		flash("Please!!! Login First","danger")
-		return redirect(url_for('login'),category="danger")
+		return render_template('login.html',category="danger")
 
 @app.route('/visualise',methods=["GET","POST"])
 def visualise():
@@ -102,8 +112,31 @@ def visualise():
 		return render_template('visualise.html',soln=solution_grid,ques=question_grid)
 	else:
 		flash("Please!!! Login First","danger")
-		return redirect(url_for('login'),category="danger")
+		return render_template('login.html',category="danger")
 
+@app.route('/MailMe', methods=['POST', 'GET'])
+def MailMe():
+	if "user" in session:
+		name=request.form.get('name')
+		phone=request.form.get('phone')
+		email=request.form.get('email')
+		message=request.form.get('message')
+		print(name)
+		print(email)
+		try:
+			msg=Message(
+					subject='Sudoku Solver Website Contact Form: %s'%(name),
+					recipients=['aadarshgupta875@gmail.com'],
+					body="You have received a new message from your website contact form.\n\n. Here are the details:\n\nName: {}\n\nEmail: {}\n\nPhone: {}\n\nMessage:\n{}".format(name,email,phone,message)
+			)
+			mail.send(msg)
+			return jsonify(value=1)
+		except Exception:
+			return jsonify(value=0)
+	else:
+		flash("Please!!! Login First","danger")
+		return render_template('login.html',category="danger")
+	
 @app.route('/logout')
 def logout():
 	if "user" in session:
@@ -112,7 +145,7 @@ def logout():
 		return render_template("login.html",category="success")
 	else:
 		flash("Please!!! Login First","danger")
-		return redirect(url_for('login'),category="danger")
+		return render_template('login.html',category="danger")
 
 
 app.secret_key=os.environ.get('SECRET')
