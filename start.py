@@ -24,35 +24,26 @@ mail=Mail(app)
 
 @app.route('/',methods=["GET","POST"])
 def login():
-	if "user" in session:
-		flash("Already logged in","danger")
-		return render_template("login.html",category="danger")
-	else:
-		if request.method=="POST":
-			email=request.form.get("email")
-			password=request.form.get("Password")
-			emaildata=db.execute("SELECT email FROM users WHERE email=:email",{"email":email}).fetchone()
-			passworddata=db.execute("SELECT password FROM users WHERE email=:email",{"email":email}).fetchone()
-
-
-
-			if emaildata is None:
-				flash("No registerations with this email","danger")
-				return render_template("login.html",category="danger")
+	if request.method=="POST":
+		email=request.form.get("email")
+		password=request.form.get("Password")
+		emaildata=db.execute("SELECT email FROM users WHERE email=:email",{"email":email}).fetchone()
+		passworddata=db.execute("SELECT password FROM users WHERE email=:email",{"email":email}).fetchone()
+      
+		if emaildata is None:
+			flash("No registerations with this email","danger")
+			return render_template("login.html",category="danger")
+		else:
+			#for passwor in passworddata:
+			if sha256_crypt.verify(password, passworddata[0]):
+				session["user"]=True
+				flash("Successfully logged in","success")
+				return render_template("dashboard.html",category="success")
 			else:
-				#for passwor in passworddata:
-				if sha256_crypt.verify(password, passworddata[0]):
-					if "user" in session:
-						flash("Already logged in","danger")
-						return render_template("login.html",category="danger")
-					session["user"]=True
-					flash("Successfully logged in","success")
-					return render_template("dashboard.html",category="success")
-				else:
-					flash("incorrect password","danger")
-					return render_template("login.html",category="danger")   
-		else:          							
-			return render_template('login.html')
+				flash("incorrect password","danger")
+				return render_template("login.html",category="danger")   
+	else:          							
+		return render_template('login.html')
 
 
 @app.route('/register',methods=["GET","POST"])
@@ -128,8 +119,6 @@ def MailMe():
 		phone=request.form.get('phone')
 		email=request.form.get('email')
 		message=request.form.get('message')
-		print(name)
-		print(email)
 		try:
 			msg=Message(
 					subject='Sudoku Solver Website Contact Form: %s'%(name),
