@@ -18,17 +18,21 @@ $(function () {
             if (firstName.indexOf(" ") >= 0) {
                 firstName = name.split(" ").slice(0, -1).join(" ");
             }
+            var data= {
+                    name: name,
+                    phone: phone,
+                    email: email,
+                    message: message,
+                };
             $this = $("#sendMessageButton");
             $this.prop("disabled", true); // Disable submit button until getJson call is complete to prevent duplicate messages
-            $.getJSON('/MailMe',{
-                name:name,
-                phone:phone,
-                message:message,
-                email:email
-            },
-            function (data) {
+            $.ajax({
+                url:'/MailMe',
+                type: "POST",
+                data : JSON.stringify(data),
+                cache: false,
+                success: function () {
                     // Success message
-                if(data.value==1){
                     $("#success").html("<div class='alert alert-success'>");
                     $("#success > .alert-success")
                         .html(
@@ -41,8 +45,8 @@ $(function () {
                     $("#success > .alert-success").append("</div>");
                     //clear all fields
                     $("#contactForm").trigger("reset");
-                }
-                else{
+                },
+                error: function () {
                     // Fail message
                     $("#success").html("<div class='alert alert-danger'>");
                     $("#success > .alert-danger")
@@ -60,8 +64,12 @@ $(function () {
                     $("#success > .alert-danger").append("</div>");
                     //clear all fields
                     $("#contactForm").trigger("reset");
-                }
-                
+                },
+                complete: function () {
+                    setTimeout(function () {
+                        $this.prop("disabled", false); // Re-enable submit button when AJAX call is complete
+                    }, 1000);
+                },
             });
         },
         filter: function () {
