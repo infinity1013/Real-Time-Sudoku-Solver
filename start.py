@@ -115,10 +115,11 @@ def visualise():
 @app.route('/MailMe', methods=['POST', 'GET'])
 def MailMe():
 	if "user" in session:
-		name=request.form.get('name')
-		phone=request.form.get('phone')
-		email=request.form.get('email')
-		message=request.form.get('message')
+		data= request.get_json(force = True)
+		name=data.get("name")
+		email=data.get("email")
+		phone=data.get("phone")
+		message=data.get("message")
 		try:
 			msg=Message(
 					subject='Sudoku Solver Website Contact Form: %s'%(name),
