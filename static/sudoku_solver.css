@@ -7,17 +7,50 @@
   user-select: none;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 767.98px) {
   .bd-placeholder-img-lg {
     font-size: 3.5rem;
   }
+  #butt1{
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 0px;
+  }
 }
 
+@media (max-width: 768px) {
+  #butt1{
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    margin-top: 3.5px;
+    margin-bottom: 3.5px;
+    margin-right: 0px;
+  }
+}
+
+.butt{
+    position:absolute;
+    margin-top:15px;
+    margin-left:88%;
+
+}
 body{
   background: url("https://plus.maths.org/latestnews/may-aug07/sudoku/Sudoku.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;  
   background-size: cover;
+  overflow-x: hidden;
+}
+
+body,html{
+  min-height: 100%;
+  min-width:100%; 
 }
 
 table {
@@ -51,12 +84,6 @@ input {
 
 input:disabled {
   background-color: #EEEEEE;
-}
-
-.butt{
-  position:absolute;
-  margin-top:15px;
-  margin-left:82%;
 }
 
 
@@ -103,5 +130,3 @@ input:disabled {
 #cell-62, #cell-71, #cell-80 { border-right:  2px solid #000000; }
 #cell-78, #cell-79, #cell-80 { border-bottom: 2px solid #000000; }
 #cell-60, #cell-69, #cell-78 { border-left:   2px solid #000000; }
-
-
