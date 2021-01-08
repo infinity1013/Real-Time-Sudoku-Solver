@@ -1031,6 +1031,7 @@ pre code {
   .offset-sm-11 {
     margin-left: 91.6666666667%;
   }
+
 }
 @media (min-width: 768px) {
   .col-md {
@@ -1923,6 +1924,12 @@ pre code {
 }
 
 @media (max-width: 575.98px) {
+  #butt{
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+  }
   .table-responsive-sm {
     display: block;
     width: 100%;
@@ -2359,6 +2366,12 @@ textarea.form-control {
   width: 100%;
 }
 @media (min-width: 576px) {
+  #butt{
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+  }
   .form-inline label {
     display: flex;
     align-items: center;
