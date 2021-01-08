@@ -53,10 +53,13 @@
 body{
 	background-image: url('background.png');
 	background-size:cover;
-	height: 100%; 
-	background:relative;
 	background-repeat: no-repeat;
-	overflow:hidden;
+	overflow-x: hidden;
+}
+
+body,html{
+	min-height: 100%;
+	min-width:100%; 
 }
 
 .navbar{
@@ -78,6 +81,7 @@ button{
 	cursor:pointer;
 }
 
+
 .bubble img{
 	width:50px;
 	animation: bubble 7s linear infinite;
@@ -88,7 +92,7 @@ button{
 	align-items: center;
 	justify-content:space-around;
 	position:absolute;
-	bottom:-70px;
+	bottom:1px;
 }
 @keyframes bubble{
 	0%{
@@ -110,29 +114,29 @@ button{
 }
 
 .bubble img:nth-child(1){
-	animation-delay: 2s;
+	animation-delay: -2s;
 	width:25px;
 }
 .bubble img:nth-child(2){
-	animation-delay: 1s;
+	animation-delay: -1s;
 }
 .bubble img:nth-child(3){
-	animation-delay: 3s;
+	animation-delay: -3s;
 	width:25px;
 }
 .bubble img:nth-child(4){
-	animation-delay: 4.5s;
+	animation-delay: -4.5s;
 
 }
 .bubble img:nth-child(5){
-	animation-delay: 3s;
+	animation-delay: -3s;
 }
 .bubble img:nth-child(6){
-	animation-delay: 6s;
+	animation-delay: -6s;
 	width:20px;
 }
 .bubble img:nth-child(){
-	animation-delay: 7s;
+	animation-delay: -7s;
 	width:35px;
 }
 
