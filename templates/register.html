@@ -19,7 +19,7 @@
 
   </head>
   <body>
-    <div class="hero">
+    <div>
         {% with messages= get_flashed_messages(with_categories=true)%}
             {% if messages %}
                 <div class="alert alert-{{category}}" role="alert">
@@ -34,26 +34,18 @@
             {% endif %}
         {% endwith %}
 
-        <div class="navbar">
-            <button type="button">Register</button>
-
-        </div>
-        <div class="content">
-            <small>Welcome to our</small>
-            <h1>REAL TIME<br> SUDOKU SOLVER</h1>
-        </div>    
-        <div class="bubble">
-            <img src="{{url_for('static',filename='bubble.png')}}">
-            <img src="{{url_for('static',filename='bubble.png')}}">
-            <img src="{{url_for('static',filename='bubble.png')}}">
-            <img src="{{url_for('static',filename='bubble.png')}}">
-            <img src="{{url_for('static',filename='bubble.png')}}">
-            <img src="{{url_for('static',filename='bubble.png')}}">
-            <img src="{{url_for('static',filename='bubble.png')}}">
-        </div>
-        <div class="gup">
-            <div>
-                <div class="card-body ">
+        <div class="hero row">
+            <div class="navbar">
+                <button type="button">Register</button>
+            </div>
+            
+            <div class="col-md-8 heading">
+                <small>Welcome to our</small><br>
+                <span id="head1">REAL TIME<br> SUDOKU SOLVER</span>
+            </div>    
+    
+            <div class="col-md-4" id="form_details">
+                <div class="form">
                     <form class="form" method="POST" action="/register">
                         <label>Name</label><br>
                         <input type="text" name="name" placeholder="Name" class="form-control" required><br>
@@ -67,6 +59,15 @@
                     </form>
                 </div>
             </div>
+        </div>
+        <div class="bubble">
+            <img src="{{url_for('static',filename='bubble.png')}}">
+            <img src="{{url_for('static',filename='bubble.png')}}">
+            <img src="{{url_for('static',filename='bubble.png')}}">
+            <img src="{{url_for('static',filename='bubble.png')}}">
+            <img src="{{url_for('static',filename='bubble.png')}}">
+            <img src="{{url_for('static',filename='bubble.png')}}">
+            <img src="{{url_for('static',filename='bubble.png')}}">
         </div>   
     </div>
   
