@@ -117,9 +117,3 @@ def can_be_correct(matrix, row, col):
 
 # Return true if the whole board has been occupied by some non-zero number
 # If this happens, the current board is the solution to the original Sudoku
-def all_board_non_zero(matrix):
-    for i in range(9):
-        for j in range(9):
-            if matrix[i][j] == 0:
-                return False
-    return True

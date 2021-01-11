@@ -1,0 +1,62 @@
+body{
+  background: url("https://plus.maths.org/latestnews/may-aug07/sudoku/Sudoku.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+}
+
+body,html{
+  min-height: 100%;
+  min-width:100%; 
+}
+
+.cover-heading{
+  margin-top:27px;
+  text-align: center;
+}
+ #container {
+     width: 640px;
+     height: 480px;
+     margin: 40px auto;
+ }
+ #videoElement {
+     width: 640px;
+     height: 480px;
+     display: none;
+     background-color: #666;
+ }
+ #canvasElement {
+     width: 640px;
+     height: 480px;
+ }
+ 
+@media (min-width: 767.98px) {
+  #butt1{
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: .3rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 0px;
+  }
+}
+
+@media (max-width: 768px) {
+  #butt1{
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    margin-top: 3.5px;
+    margin-bottom: 3.5px;
+    margin-right: 0px;
+  }
+}
+
+.butt{
+    position:absolute;
+    margin-top:15px;
+    margin-left:88%;
+
+}

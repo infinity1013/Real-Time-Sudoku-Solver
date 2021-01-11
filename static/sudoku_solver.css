@@ -53,6 +53,11 @@ body,html{
   min-width:100%; 
 }
 
+.cover-heading{
+  margin-top:27px;
+  text-align: center;
+}
+
 table {
   border: 2px solid #000000;
 }
@@ -130,3 +135,5 @@ input:disabled {
 #cell-62, #cell-71, #cell-80 { border-right:  2px solid #000000; }
 #cell-78, #cell-79, #cell-80 { border-bottom: 2px solid #000000; }
 #cell-60, #cell-69, #cell-78 { border-left:   2px solid #000000; }
+
+

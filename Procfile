@@ -1,1 +1,1 @@
-web: gunicorn start:app
+web: gunicorn -k eventlet -w 1 start:app --log-file=-

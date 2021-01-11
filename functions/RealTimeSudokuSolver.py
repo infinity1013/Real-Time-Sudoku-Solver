@@ -117,10 +117,13 @@ def prepare(img_array):
     new_array /= 255
     return new_array
 
-def showImage(img, name, width, height):
-    new_image = np.copy(img)
-    new_image = cv2.resize(new_image, (width, height))
-    cv2.imshow(name, new_image)
+def all_board_non_zero(matrix):
+    for i in range(9):
+        for j in range(9):
+            if matrix[i][j] == 0:
+                return False
+    return True
+
 
 grid = []
 user_grid = []
@@ -153,12 +156,14 @@ def recognize_and_solve_sudoku(image, model, old_sudoku):
             biggest_contour = c
 
     if biggest_contour is None:        # If no sudoku
+        #print("no contour")
         return 0
 
     # Get 4 corners of the biggest contour
     corners = get_corners_from_contours(biggest_contour, 4)
 
     if corners is None:         # If no sudoku
+        #print("unable to find corners")
         return 0
 
     # Now we have 4 corners, locate the top left, top right, bottom left and bottom right corners
@@ -215,12 +220,14 @@ def recognize_and_solve_sudoku(image, model, old_sudoku):
     eps_angle = 20
     if not (approx_90_degrees(angle_between(AB,AD), eps_angle) and approx_90_degrees(angle_between(AB,BC), eps_angle)
     and approx_90_degrees(angle_between(BC,DC), eps_angle) and approx_90_degrees(angle_between(AD,DC), eps_angle)):
+        #print("Angles of grid found arnt 90 degrees")
         return 0
     
     # 2nd condition: The Lengths of AB, AD, BC, DC have to be approximately equal
     # => Longest and shortest sides have to be approximately equal
     eps_scale = 1.2     # Longest cannot be longer than epsScale * shortest
     if(side_lengths_are_too_different(A, B, C, D, eps_scale)):
+        #print("side lengths of grid are different")
         return 0
     
     # Now we are sure ABCD correspond to 4 corners of a Sudoku board
@@ -360,19 +367,13 @@ def recognize_and_solve_sudoku(image, model, old_sudoku):
 
     user_grid=[]
     user_grid = copy.deepcopy(grid)
-    
 
     functions.sudokuSolver.solve_sudoku(grid)
-    if(functions.sudokuSolver.all_board_non_zero(grid)):
-        for i in range (0,9):
-            for j in range (0,9):
-                if(functions.sudokuSolver.can_be_correct(grid, i, j)):
-                    continue
-                else:
-                    return 0
+    if(all_board_non_zero(grid)):
+        return 1
     else:
+        #print("matrix values are not placed correctly")
         return 0
-    return 1
     
 
 
