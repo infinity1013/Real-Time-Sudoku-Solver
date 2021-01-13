@@ -32,6 +32,7 @@ socketio = SocketIO(app)
 mail=Mail(app)
 
 global camera
+global flag
 
 question_grid=[]
 solution_grid=[]
@@ -40,10 +41,12 @@ solution_grid=[]
 def test_message(input):
 	global question_grid
 	global solution_grid
+	global flag
 	input = input.split(",")[1]
 	camera.enqueue_input(input)
 	question_grid,solution_grid=camera.get_matrix()
-	if (len(solution_grid)!=0):
+	if (len(solution_grid)!=0 and flag==1):
+		flag=0
 		emit('input image',"True",namespace='/test')
 	emit('input image',"False",namespace='/test')
 
@@ -67,6 +70,9 @@ def login():
 		else:
 			#for passwor in passworddata:
 			if sha256_crypt.verify(password, passworddata[0]):
+				if "user" in session:
+					flash("You are already logged in","danger")
+					return render_template("login.html",category="danger")
 				session["user"]=True
 				flash("Successfully logged in","success")
 				return render_template("dashboard.html",category="success")
@@ -118,9 +124,11 @@ def webcam():
 	global camera
 	global question_grid
 	global solution_grid
+	global flag
 	if "user" in session:
 		question_grid=[]
 		solution_grid=[]
+		flag=1
 		camera = Camera(Makeup_artist())
 		return render_template('webcam.html')
 	else:
