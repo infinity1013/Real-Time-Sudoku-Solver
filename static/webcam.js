@@ -22,7 +22,7 @@ $(document).ready(function(){
     socket.on('input image', function(msg) {
       if(msg=="True"){
         localMediaStream.getTracks()[0].stop();  //Turned off webcam
-        stop();
+        socket.disconnect();
         $("#pseudo_form").submit();     //Called sudoku_board
       }
     });
