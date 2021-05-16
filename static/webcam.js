@@ -24,12 +24,13 @@ $(document).ready(function(){
         localMediaStream.getTracks()[0].stop();  //Turned off webcam
         socket.disconnect();
         $("#pseudo_form").submit();     //Called sudoku_board
+
       }
     });
   }
 
   socket.on('connect', function() {
-    console.log('Connected!');
+      console.log('Connected!');
   });
 
   var constraints = {
