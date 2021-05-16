@@ -1,1 +1,1 @@
-web: gunicorn -k eventlet -w 1 start:app --log-file=-
+web: gunicorn -k eventlet -w 1 start:app --preload --log-file=- 
